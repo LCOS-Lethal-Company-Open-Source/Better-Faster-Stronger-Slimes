@@ -4,10 +4,25 @@ namespace Template;
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
 public class Plugin : BaseUnityPlugin
 {
-    private void Awake()
+  private void Awake()
+  {
+    // Plugin load logic goes here!
+    // This script acts like a unity object.
+    Logger.LogInfo($"Hello World!");
+  }
+
+  [HarmonyPatch(typeof(BlobAI), "Start")]
+
+  class startingCash
+  {
+    private static void Postfix(ref BlobAI __instance)
     {
-        // Plugin load logic goes here!
-        // This script acts like a unity object.
-        Logger.LogInfo($"Hello World!");
+      for(int i = 0; i < __instance.maxDistanceForSlimeRays.Length; i++)
+      {
+        __instance.maxDistanceForSlimeRays[i] = 9f;
+        __instance.SlimeBonePositions[i] = __instance.SlimeBones[i].tranform.position;
+      }
     }
+  }
+
 }
