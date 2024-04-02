@@ -4,31 +4,37 @@ using BepInEx.Logging;
 using GameNetcodeStuff;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.UIElements;
 namespace betterFasterStrongerSlimes;
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
 public class Plugin : BaseUnityPlugin
 {
+
+  Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
   private void Awake()
   {
     // Plugin load logic goes here!
     // This script acts like a unity object.
     Logger.LogInfo($"Better Faster Stronger Slimes Active!");
+    harmony.PatchAll();
   }
 
-  [HarmonyPatch(typeof(BlobAI), "Start")]
+  [HarmonyPatch(typeof(BlobAI), "Start")] //InitializeRPCS_BlobAI
 
   class myClass
   {
-    private static void Postfix(ref BlobAI __instance)
+    private static void Prefix(ref BlobAI __instance)
     {
       ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(PluginInfo.PLUGIN_GUID);
-      for(int i = 0; i < __instance.maxDistanceForSlimeRays.Length; i++)
-      {
+      //for(int i = 0; i < __instance.maxDistanceForSlimeRays.Length; i++)
+      mls.LogInfo(__instance.enemyHP);
+      //for(int i = 0; i < __instance.)
+      //{
         //__instance.maxDistanceForSlimeRays[i] = 9f;
         //__instance.SlimeBonePositions[i] = __instance.SlimeBones[i].tranform.position;
         mls.LogInfo($"In the loop");
-      }
+      //}
     }
   }
 
