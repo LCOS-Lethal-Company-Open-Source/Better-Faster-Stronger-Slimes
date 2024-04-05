@@ -20,22 +20,20 @@ public class Plugin : BaseUnityPlugin
     harmony.PatchAll();
   }
 
-  [HarmonyPatch(typeof(BlobAI), "Start")] //InitializeRPCS_BlobAI
+  [HarmonyPatch(typeof(BlobAI), "Update")] //InitializeRPCS_BlobAI
 
-  class myClass
+  class updateBlob
   {
-    private static void Prefix(ref BlobAI __instance)
-    {
       ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(PluginInfo.PLUGIN_GUID);
       //for(int i = 0; i < __instance.maxDistanceForSlimeRays.Length; i++)
-      mls.LogInfo(__instance.enemyHP);
+      //mls.LogInfo(__instance.enemyHP);
       //for(int i = 0; i < __instance.)
       //{
         //__instance.maxDistanceForSlimeRays[i] = 9f;
         //__instance.SlimeBonePositions[i] = __instance.SlimeBones[i].tranform.position;
-        mls.LogInfo($"In the loop");
+        //mls.LogInfo($"In the loop");
+      this.agent.speed = 1f;
       //}
-    }
   }
 
 }
